@@ -1,0 +1,22 @@
+- name: "Add Java8 repo"
+  apt_repository: repo=ppa:webupd8team/java
+
+- name: "Accept Oracle license"
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+
+- name: "Install Java 8 Oracle"
+  apt: name=oracle-java8-installer state=latest
+
+- name: "Install Git"
+  apt: name=git state=latest
+
+- name: "Clone repo"
+  git: repo=https://github.com/pal-thomassen/trh-linux-kurs.git
+       dest=/srv/helloworld
+
+- name: "Build app"
+  shell: cd /srv/helloworld/app && ./gradlew build oneJar
+
+- name: "Install configuration"
+  template: src=app.yml.j2 dest=/srv/helloworld/app/helloworld/app.yml mode=0644
+
