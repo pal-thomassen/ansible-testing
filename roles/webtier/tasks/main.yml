@@ -1,6 +1,11 @@
 - name: "Install Nginx"
   apt: name=nginx state=latest
 
+- name: "Configure reverse proxy"
+  copy: src=nginx-rproxy.conf dest=/etc/nginx/sites-available/default
+  notify:
+    nginx restart
+
 - name: "Start Nginx"
   service:
     name: nginx

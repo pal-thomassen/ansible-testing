@@ -1,5 +1,12 @@
 - name: "Install vim"
   apt: name=vim state=latest
 
-- name: "Use Ubuntu sources"
-  shell: sed -i 's/eu-west-1.ec2/us/g' /etc/apt/sources.list
+- name: "Use best mirrors"
+  apt_repository:
+    repo: "deb http://eu.archive.ubuntu.com/ubuntu/ {{ item }}"
+  with_items:
+  - trusty main restricted
+  - trusty universe
+  - trusty-updates main restricted
+  - trusty-security main
+  - trusty-security universe

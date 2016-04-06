@@ -1,19 +1,16 @@
 [webservers]
-example.com
 
 [webservers:vars]
-dbconn=db.example.com
+dbconn=
 dbname=helloworld
 dbuser=helloworld_user
 dbpass=supersecret
 
 [dbservers]
-db.example.com
+
 
 [dbservers:vars]
-dbconn=db.example.com
+dbconn=
 dbname=helloworld
 dbuser=helloworld_user
 dbpass=supersecret
-
-

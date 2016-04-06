@@ -10,13 +10,23 @@
 - name: "Install Git"
   apt: name=git state=latest
 
+- name: "Install application user"
+  user: name=appuser system=yes
+
 - name: "Clone repo"
   git: repo=https://github.com/pal-thomassen/trh-linux-kurs.git
-       dest=/srv/helloworld
+       dest=/home/appuser/trh-linux-kurs
 
 - name: "Build app"
-  shell: cd /srv/helloworld/app && ./gradlew build oneJar
+  shell: ./gradlew build oneJar
+  args:
+    chdir: /home/appuser/trh-linux-kurs/app/
 
 - name: "Install configuration"
-  template: src=app.yml.j2 dest=/srv/helloworld/app/helloworld/app.yml mode=0644
+  template: src=app.yml.j2 dest=/home/appuser/app.yml mode=0644
 
+- name: "Install upstart script"
+  copy: src=helloworld.conf dest=/etc/init/helloworld.conf
+
+- name: "Start Hello World Application"
+  service: name=helloworld state=started enabled=yes
