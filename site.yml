@@ -1,2 +1,3 @@
 - include: webservers.yml
-- incude: dbservers.yml
+- include: dbservers.yml
+- include: loadbalancer.yml

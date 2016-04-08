@@ -1,0 +1,35 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: "Create EC2 micro web instance"
+      ec2:
+        key_name: ansible-workshop
+        instance_type: t2.micro
+        groups: ansible-workshop-common,Ansible-workshop-web 
+        image: ami-06116566
+        wait: yes
+        count: 4
+        region: us-west-1
+        instance_tags: {type: webservers}
+
+    - name: "Create EC2 micro HAProxy instance"
+      ec2:
+        key_name: ansible-workshop
+        instance_type: t2.micro
+        groups: ansible-workshop-common,Ansible-workshop-web 
+        image: ami-06116566
+        wait: yes
+        count: 1
+        region: us-west-1
+        instance_tags: {type: HAProxy}
+
+    - name: "Create EC2 micro postgres instance"
+      ec2:
+        key_name: ansible-workshop
+        instance_type: t2.micro
+        groups: ansible-workshop-common,Ansible-workshop-postgres
+        image: ami-06116566
+        wait: yes
+        count: 1
+        region: us-west-1
+        instance_tags: {type: postgres}

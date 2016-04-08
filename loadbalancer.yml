@@ -1,8 +1,7 @@
-- hosts: tag_type_webservers
+- hosts: tag_type_HAProxy
   remote_user: "{{ user }}"
   become: yes
   become_method: sudo
-  roles: 
+  roles:
     - common
-    - webtier
-    - application
+    - loadbalancer

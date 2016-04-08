@@ -13,7 +13,9 @@ database:
   password: {{ dbpass }}
 
   # the JDBC URL
-  url: jdbc:postgresql://{{dbconn}}/{{dbname}}
+{% for host in groups['tag_type_postgres'] %}
+  url: jdbc:postgresql://{{ hostvars[host]['ec2_ip_address'] }}/{{ dbname }}
+{% endfor %}
 
   # any properties specific to your JDBC driver:
   properties:

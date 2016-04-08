@@ -1,0 +1,22 @@
+global
+    daemon
+    maxconn 256
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http-in
+    bind *:80
+    default_backend helloworld
+
+backend helloworld
+{% for host in groups['tag_type_webservers'] %}
+    server s{{ loop.index }} {{ hostvars[host]['ec2_ip_address'] }}:80 maxconn 32
+{% endfor %} 
+
+listen admin
+    bind *:8080
+    stats enable
